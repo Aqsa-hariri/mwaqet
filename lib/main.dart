@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:mwaquite/electronic_tasbeeh.dart';
 import 'package:mwaquite/prayer_times.dart';
@@ -23,9 +25,41 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  String _currentAthkar = '';
+  final List<String> _morningAthkar = [
+    "سبحان الله وبحمده",
+    "الحمد لله الذي أحيانا بعدما أماتنا وإليه النشور",
+    "أصبحنا وأصبح الملك لله والحمد لله لا إله إلا الله وحده لا شريك له"
+  ];
+
+  final List<String> _eveningAthkar = [
+    "أمسينا وأمسى الملك لله والحمد لله لا إله إلا الله وحده لا شريك له",
+    "اللهم بك أمسينا وبك أصبحنا وبك نحيا وبك نموت وإليك المصير",
+    "أعوذ بكلمات الله التامات من شر ما خلق"
+  ];
+
+  final List<String> _sleepAthkar = [
+    "باسمك اللهم أموت وأحيا",
+    "اللهم قني عذابك يوم تبعث عبادك",
+    "سبحانك اللهم ربي بك وضعت جنبي وبك أرفعه"
+  ];
+  String _showAthkar(List<String> athkarList) {
+    setState(() {
+      _currentAthkar = athkarList[Random().nextInt(athkarList.length)];
+    });
+    return _currentAthkar;
+  }
+
+  final String _leavingHomeDua =
+      "بسم الله توكلت على الله ولا حول ولا قوة إلا بالله";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,6 +106,49 @@ class HomePage extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) => const QuiblahScreen()),
+                );
+              },
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              child: const Text('أذكار الصباح'),
+              onPressed: () {
+                _showAthkar(_morningAthkar);
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return Dialog(
+                      child: Text(_currentAthkar),
+                    );
+                  },
+                );
+              },
+            ),
+            ElevatedButton(
+              child: const Text('أذكار المساء'),
+              onPressed: () {
+                _showAthkar(_sleepAthkar);
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return Dialog(
+                      child: Text(_currentAthkar),
+                    );
+                  },
+                );
+              },
+            ),
+            ElevatedButton(
+              child: const Text('أذكار النوم'),
+              onPressed: () {
+                _showAthkar(_sleepAthkar);
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return Dialog(
+                      child: Text(_currentAthkar),
+                    );
+                  },
                 );
               },
             ),
